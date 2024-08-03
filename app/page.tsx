@@ -1,9 +1,10 @@
-import { useAuth } from '@clerk/nextjs';
+'use client' // fix error useAuth
 import { RiNextjsFill } from "react-icons/ri";
 import Storage from "@mui/icons-material/StorageRounded";
 import ChangeHistory from "@mui/icons-material/ChangeHistoryRounded";
 import CodeRounded from "@mui/icons-material/CodeRounded";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 export default function Home() {
   return (
     <div className="proppins">
@@ -43,8 +44,7 @@ function Logo() {
 }
 
 function Buttons() {
-  const { userId } = useAuth;
-
+  const { userId } = useAuth();
   return (
     <div className="flex gap-2 max-sm:flex-col max-sm:w-full max-sm:mt-8">
       {!userId ? (
