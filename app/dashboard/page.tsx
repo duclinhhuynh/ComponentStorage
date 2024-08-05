@@ -1,10 +1,18 @@
 import { UserButton, UserProfile } from "@clerk/nextjs";
 import React from "react";
+import SideBar from "./SideBar";
+import { AppProvider } from '../ContextApi'; 
+import ContentArea from "./ContentArea"
 function dashboard() {
     return (
-        <div>
+        // contain fix outsite
+        <AppProvider>
+            <div className="flex">
+                <SideBar />
+                <ContentArea />
+            </div>
             <UserButton />
-        </div>
+        </AppProvider>
     );
 }
 export default dashboard;
