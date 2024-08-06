@@ -1,18 +1,22 @@
-import { UserButton, UserProfile } from "@clerk/nextjs";
+// import { UserButton } from "@clerk/nextjs";
 import React from "react";
 import SideBar from "./SideBar";
-import { AppProvider } from '../ContextApi'; 
-import ContentArea from "./ContentArea"
-function dashboard() {
+import { AppProvider } from "../ContextApi";
+import ContentArea from "./ContentArea";
+import TopBar from "./Components/TopBar";
+
+function Dashboard() {
     return (
-        // contain fix outsite
         <AppProvider>
-            <div className="flex">
+            <div className="flex min-h-screen">
                 <SideBar />
-                <ContentArea />
+                <div className="flex flex-col flex-grow">
+                    <TopBar />
+                    <ContentArea />
+                </div>
             </div>
-            <UserButton />
         </AppProvider>
     );
 }
-export default dashboard;
+
+export default Dashboard;

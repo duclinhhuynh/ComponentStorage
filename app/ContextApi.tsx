@@ -2,10 +2,19 @@
 import React, { createContext, useState, ReactNode, useContext, useEffect } from "react";
 import CategoryIcon from "@mui/icons-material/Category";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import HomeIcon from "@mui/icons-material/Home";
 
 export interface MenuItem {
     id: string;
+    name: string;
+    icon: ReactNode;
+    isSelected: boolean;
+}
+
+export interface DarkModeMenu {
+    id: String;
     name: string;
     icon: ReactNode;
     isSelected: boolean;
@@ -16,12 +25,19 @@ interface AppContextType {
         menuItems: MenuItem[];
         setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>;
     };
+    darkModeMenuObject: {
+        darkModeMenu: DarkModeMenu[];
+        setDarkModeMenu: React.Dispatch<React.SetStateAction<DarkModeMenu[]>>;
+    }
     openSideBarObject: {
         openSideBar: boolean;
         setOpenSideBar: React.Dispatch<React.SetStateAction<boolean>>;
     };
+    openDarkModeMenuObject: {
+        openDarkModeMenu: boolean;
+        setOpenDarkModeMenu: React.Dispatch<React.SetStateAction<boolean>>;
+    }
 }
-
 const defaultState: AppContextType = {
     menuItemsObject: {
         menuItems: [],
@@ -30,6 +46,14 @@ const defaultState: AppContextType = {
     openSideBarObject: {
         openSideBar: true,
         setOpenSideBar: () => { throw new Error("setOpenSideBar called outside of AppProvider"); },
+    },
+    openDarkModeMenuObject: {
+        openDarkModeMenu: false,
+        setOpenDarkModeMenu: () => { throw new Error("setOpenSidsetOpenDarkModeMenueBar called outside of AppProvider"); },
+    },
+    darkModeMenuObject: {
+        darkModeMenu: [],
+        setDarkModeMenu: () => { throw new Error("setDarkModeMenu called outside of AppProvider"); },
     },
 };
 
@@ -42,19 +66,38 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         { id: "3", name: "Favorites", icon: <FavoriteIcon />, isSelected: false },
     ]);
     const [openSideBar, setOpenSideBar] = useState(() => {
-        const storedValue = localStorage.getItem("openedSideBar");
-        return storedValue != null ? JSON.parse(storedValue) : true;
+        if (typeof window !== "undefined") {
+            const storedValue = localStorage.getItem("openedSideBar");
+            return storedValue !== null ? JSON.parse(storedValue) : true;
+        }
+        return true; // Default value if window is not defined
     });
-
+    const [openDarkModeMenu, setOpenDarkModeMenu] = useState(false);
+    const [darkModeMenu, setDarkModeMenu] = useState<DarkModeMenu[]>([
+        {
+            id: "1",
+            name: "Light",
+            icon: <LightModeIcon fontSize="small" />,
+            isSelected: true,
+        },
+        {
+            id: "2",
+            name: "Dark",
+            icon: <DarkModeIcon fontSize="small" />,
+            isSelected: false,
+        },
+    ]);
     useEffect(() => {
         localStorage.setItem("openedSideBar", JSON.stringify(openSideBar));
-    },[openSideBar]);
+    }, [openSideBar]);
 
     return (
         <AppContext.Provider
             value={{
                 menuItemsObject: { menuItems, setMenuItems },
                 openSideBarObject: { openSideBar, setOpenSideBar },
+                openDarkModeMenuObject: { openDarkModeMenu, setOpenDarkModeMenu },
+                darkModeMenuObject: { darkModeMenu, setDarkModeMenu },
             }}
         >
             {children}
