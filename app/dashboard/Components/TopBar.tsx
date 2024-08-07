@@ -83,7 +83,7 @@ export default function TopBar() {
                     <FiMenu className="text-slate-500 cursor-pointer" />
                 </div>
                 <div className="flex flex-col max-sm:hidden">
-                    <span className="font-semibold">Welcome {user?.lastName}</span>
+                    <span className="font-semibold">Welcome {user?.fullName}</span>
                     <span className="text-slate-400 text-[11px] font-light">
                         I feel so excited to connect with you </span>
                 </div>

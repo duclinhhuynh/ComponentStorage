@@ -1,10 +1,11 @@
 "use client";
-import React, { createContext, useState, ReactNode, useContext, useEffect } from "react";
+import React, { createContext, useState, ReactNode, useContext, useEffect} from "react";
 import CategoryIcon from "@mui/icons-material/Category";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import HomeIcon from "@mui/icons-material/Home";
+import { allProjectsData, Project, AppComponent } from "./allData";
 
 export interface MenuItem {
     id: string;
@@ -50,6 +51,18 @@ interface AppContextType {
         showSideBar: boolean;
         setShowSideBar: React.Dispatch<React.SetStateAction<boolean>>;
     }
+    allProjectsObject: {
+        allProjects: Project[];
+        setAllProjects: React.Dispatch<React.SetStateAction<Project[]>>;
+    };
+    allFavoriteComponentsObject: {
+        allFavoriteComponents: AppComponent[],
+        setAllFavoriteComponents: React.Dispatch<React.SetStateAction<AppComponent[]>>;
+    }
+    isLoadingObject: {
+        isLoading: boolean;
+        setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    }
 }
 const defaultState: AppContextType = {
     menuItemsObject: {
@@ -79,7 +92,19 @@ const defaultState: AppContextType = {
     showSideBarObject: {
         showSideBar: true,
         setShowSideBar: () => { throw new Error("showSideBarObject called outside of AppProvider"); },
-    }
+    },
+    allProjectsObject: {
+        allProjects: [],
+        setAllProjects: () => { },
+    },
+    allFavoriteComponentsObject: {
+        allFavoriteComponents: [],
+        setAllFavoriteComponents: () => { },
+    },
+    isLoadingObject: {
+        isLoading: true,
+        setIsLoading: () => { },
+    },
 };
 
 const AppContext = createContext<AppContextType>(defaultState);
@@ -115,6 +140,17 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [isMobileView, setIsMobileView] = useState(false);
     const [showSideBar, setShowSideBar] = useState(true);
+    const [allProjects, setAllProjects] = useState<Project[]>([]);
+    const [allFavoriteComponents, setAllFavoriteComponents] = useState<AppComponent[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        function fetchAllProjects() {
+            setTimeout(() => {
+                setAllProjects(allProjectsData);
+            }, 2000);
+        }
+        fetchAllProjects();
+    }, []);
 
     useEffect(() => {
         function handleResize() {
@@ -128,11 +164,18 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             window.removeEventListener("resize", handleResize);
         }
     }, []);
-    console.log(isMobileView);
     useEffect(() => {
         localStorage.setItem("openedSideBar", JSON.stringify(openSideBar));
     }, [openSideBar]);
-
+    // Update favorite components when allProjects changes
+    useEffect(() => {
+        if (allProjects.length > 0) {
+            const favoriteComponents = allProjects.flatMap((project) =>
+                project.components.filter((component) => component.isFavorite)
+            );
+            setAllFavoriteComponents(favoriteComponents);
+        }
+    }, [allProjects]);
     return (
         <AppContext.Provider
             value={{
@@ -143,6 +186,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 showSearchBarObject: { showSearchBar, setShowSearchBar },
                 isMobileViewObject: { isMobileView, setIsMobileView },
                 showSideBarObject: { showSideBar, setShowSideBar },
+                allProjectsObject: { allProjects, setAllProjects },
+                isLoadingObject: { isLoading, setIsLoading },
+                allFavoriteComponentsObject: { allFavoriteComponents, setAllFavoriteComponents },
             }}
         >
             {children}
