@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import CategoryIcon from "@mui/icons-material/Category";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeIcon from "@mui/icons-material/Home";
@@ -11,9 +11,48 @@ import { useAppContext } from "../ContextApi";
 import { MenuItem } from "../ContextApi";
 
 export default function SideBar() {
-    const { openSideBarObject: { openSideBar } } = useAppContext();
+    const {
+        openSideBarObject: { openSideBar, setOpenSideBar },
+        isMobileViewObject: { isMobileView },
+        showSideBarObject: { showSideBar, setShowSideBar },
+    } = useAppContext();
+    const menuRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node) &&
+                isMobileView
+            ) {
+                setShowSideBar(false);
+            }
+        }
+        if (showSideBar) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showSideBar, setShowSideBar, isMobileView]);
+    useEffect(() => {
+        // If the user is on mobile view, stretch the sidebar to full width
+        if (isMobileView) {
+            //stretch the sidebar
+            setOpenSideBar(true);
+            //hide the sidebar
+            setShowSideBar(false);
+        } else {
+            //If the user is not on mobile view, show the sidebar
+            setShowSideBar(true);
+        }
+    }, [isMobileView]);
     return (
-        <div className={`${openSideBar ? "w-[320px] p-6" : "w-[100px] p-4"} h-screen pt-12 relative transition-all duration-300`}>
+        <div
+            ref={menuRef}
+            style={{ position: isMobileView ? "fixed" : "relative" }}
+            className={`${openSideBar ? "w-[320px] p-6" : "w-[100px] p-4"} h-screen pt-12 relative transition-all duration-300 z-50 bg-white ${showSideBar ? "block" : "hidden"}`}>
             <RoundedArrowIcon />
             <Logo />
             <Links />

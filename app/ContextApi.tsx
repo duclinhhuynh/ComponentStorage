@@ -29,6 +29,7 @@ interface AppContextType {
         darkModeMenu: DarkModeMenu[];
         setDarkModeMenu: React.Dispatch<React.SetStateAction<DarkModeMenu[]>>;
     }
+
     openSideBarObject: {
         openSideBar: boolean;
         setOpenSideBar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,6 +37,18 @@ interface AppContextType {
     openDarkModeMenuObject: {
         openDarkModeMenu: boolean;
         setOpenDarkModeMenu: React.Dispatch<React.SetStateAction<boolean>>;
+    }
+    showSearchBarObject: {
+        showSearchBar: boolean;
+        setShowSearchBar: React.Dispatch<React.SetStateAction<boolean>>;
+    }
+    isMobileViewObject: {
+        isMobileView: boolean;
+        setIsMobileView: React.Dispatch<React.SetStateAction<boolean>>;
+    }
+    showSideBarObject: {
+        showSideBar: boolean;
+        setShowSideBar: React.Dispatch<React.SetStateAction<boolean>>;
     }
 }
 const defaultState: AppContextType = {
@@ -55,10 +68,21 @@ const defaultState: AppContextType = {
         darkModeMenu: [],
         setDarkModeMenu: () => { throw new Error("setDarkModeMenu called outside of AppProvider"); },
     },
+    showSearchBarObject: {
+        showSearchBar: false,
+        setShowSearchBar: () => { throw new Error("setShowSearchBar called outside of AppProvider"); },
+    },
+    isMobileViewObject: {
+        isMobileView: false,
+        setIsMobileView: () => { throw new Error("isMobileViewObject called outside of AppProvider"); },
+    },
+    showSideBarObject: {
+        showSideBar: true,
+        setShowSideBar: () => { throw new Error("showSideBarObject called outside of AppProvider"); },
+    }
 };
 
 const AppContext = createContext<AppContextType>(defaultState);
-
 export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [menuItems, setMenuItems] = useState<MenuItem[]>([
         { id: "1", name: "Home", icon: <HomeIcon />, isSelected: true },
@@ -87,6 +111,24 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             isSelected: false,
         },
     ]);
+
+    const [showSearchBar, setShowSearchBar] = useState(false);
+    const [isMobileView, setIsMobileView] = useState(false);
+    const [showSideBar, setShowSideBar] = useState(true);
+
+    useEffect(() => {
+        function handleResize() {
+            setIsMobileView(window.innerWidth <= 640);
+        }
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        }
+    }, []);
+    console.log(isMobileView);
     useEffect(() => {
         localStorage.setItem("openedSideBar", JSON.stringify(openSideBar));
     }, [openSideBar]);
@@ -98,6 +140,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 openSideBarObject: { openSideBar, setOpenSideBar },
                 openDarkModeMenuObject: { openDarkModeMenu, setOpenDarkModeMenu },
                 darkModeMenuObject: { darkModeMenu, setDarkModeMenu },
+                showSearchBarObject: { showSearchBar, setShowSearchBar },
+                isMobileViewObject: { isMobileView, setIsMobileView },
+                showSideBarObject: { showSideBar, setShowSideBar },
             }}
         >
             {children}

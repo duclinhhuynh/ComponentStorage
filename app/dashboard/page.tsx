@@ -1,22 +1,19 @@
-// import { UserButton } from "@clerk/nextjs";
+// Dashboard.tsx
 import React from "react";
 import SideBar from "./SideBar";
-import { AppProvider } from "../ContextApi";
 import ContentArea from "./ContentArea";
-import TopBar from "./Components/TopBar";
+import { AppProvider } from "../ContextApi";
 
 function Dashboard() {
-    return (
-        <AppProvider>
-            <div className="flex min-h-screen">
-                <SideBar />
-                <div className="flex flex-col flex-grow">
-                    <TopBar />
-                    <ContentArea />
-                </div>
-            </div>
-        </AppProvider>
-    );
+  return (
+    // appProvider fix
+    <AppProvider>
+      <div className="flex min-h-screen">
+        <SideBar />
+        <ContentArea />
+      </div>
+    </AppProvider>
+  );
 }
 
 export default Dashboard;
