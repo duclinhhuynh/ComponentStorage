@@ -6,10 +6,18 @@ import IceSkatingOutlined from "@mui/icons-material/IceSkatingOutlined";
 import { useRef, useEffect } from "react";
 import { useAppContext } from "../../ContextApi";
 
-export default function AddProjects() {
+export default function AddProjects({
+  selectedIcon,
+}: {
+  selectedIcon: {
+    icon: React.ReactNode;
+    name: string;
+  };
+}) {
   const {
     isMobileViewObject: { isMobileView },
     openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
+    openIconWindowObject: { openIconWindow, setOpenIconWindow },
   } = useAppContext();
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -54,8 +62,11 @@ export default function AddProjects() {
             ref={inputRef}
           />
           {/* Icon */}
-          <div className="w-12 h-10 text-white flex items-center justify-center bg-sky-500 rounded-lg cursor-pointer">
-            <IceSkatingOutlined sx={{ fontSize: 18 }} className="text-[18px]" />
+          <div 
+            onClick={() => setOpenIconWindow(true)}
+            className="w-12 h-10 text-white flex items-center justify-center bg-sky-500 rounded-lg cursor-pointer"
+            >
+            {selectedIcon?.icon}
           </div>
         </div>
       </div>

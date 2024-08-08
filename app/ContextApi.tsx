@@ -66,6 +66,10 @@ interface AppContextType {
         openProjectWindow: boolean;
         setOpenProjectWindow: React.Dispatch<React.SetStateAction<boolean>>;
     };
+    openIconWindowObject: {
+        openIconWindow:boolean;
+        setOpenIconWindow: React.Dispatch<React.SetStateAction<boolean>>;
+    }
 }
 const defaultState: AppContextType = {
     menuItemsObject: {
@@ -111,6 +115,10 @@ const defaultState: AppContextType = {
     openProjectWindowObject: {
         openProjectWindow: false,
         setOpenProjectWindow: () => { throw new Error("setOpenProjectWindow called outside of AppProvider"); },
+    },
+    openIconWindowObject: {
+        openIconWindow: false,
+        setOpenIconWindow: () => { },
     }
 };
 
@@ -130,6 +138,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
     const [openDarkModeMenu, setOpenDarkModeMenu] = useState(false);
     const [openProjectWindow, setOpenProjectWindow] = useState(false);
+    const [openIconWindow,  setOpenIconWindow] = useState(false);
     const [darkModeMenu, setDarkModeMenu] = useState<DarkModeMenu[]>([
         {
             id: "1",
@@ -199,6 +208,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 isLoadingObject: { isLoading, setIsLoading },
                 allFavoriteComponentsObject: { allFavoriteComponents, setAllFavoriteComponents },
                 openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
+                openIconWindowObject: { openIconWindow, setOpenIconWindow},
             }}
         >
             {children}
