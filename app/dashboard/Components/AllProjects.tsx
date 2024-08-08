@@ -61,7 +61,7 @@ export default function AllProjects() {
         items-center max-sm:w-full"
             >
                 {/* The Icon */}
-                <div className="w-[70px] h-[70px] bg-sky-100 rounded-full flex items-center justify-center">
+                <div className="w-[50px] h-[50px] p-3 bg-sky-100 rounded-full flex items-center justify-center">
                     {TextToIcon({ text: singleProject.icon, size: "medium" })}
                     {/* <LandslideIcon className="text-[30px] text-sky-400" /> */}
                 </div >

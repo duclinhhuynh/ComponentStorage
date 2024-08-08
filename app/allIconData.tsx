@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaJava } from "react-icons/fa";
-import { BiLogoTypescript } from "react-icons/bi";
+import { SiTypescript } from "react-icons/si";
 import { BiLogoJavascript } from "react-icons/bi";
 import { FaPython } from "react-icons/fa";
 import { FaGolang } from "react-icons/fa6";
@@ -139,7 +139,7 @@ export const allIconsArray: IconData[] = [
     { id: 2, icon: <FaGolang className="text-[20px]" />, isSelected: false, name: 'GoLang' },
     { id: 3, icon: <BiLogoJavascript className="text-[20px]" />, isSelected: false, name: 'JavaScript' },
     { id: 4, icon: <FaJava className="text-[20px]" />, isSelected: false, name: 'Java' },
-    { id: 5, icon: <BiLogoTypescript className="text-[20px]" />, isSelected: false, name: 'TypeScript' },
+    { id: 5, icon: <SiTypescript className="text-[20px]" />, isSelected: false, name: 'TypeScript' },
     { id: 6, icon: <FaReact className="text-[20px]" />, isSelected: false, name: 'React' },
     { id: 7, icon: <FaAngular className="text-[20px]" />, isSelected: false, name: 'Angular' },
     { id: 8, icon: <SiNextdotjs className="text-[20px]" />, isSelected: false, name: 'Next.js' },
