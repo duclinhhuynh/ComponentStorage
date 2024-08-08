@@ -9,6 +9,7 @@ export default function ContentArea() {
     const {
         showSideBarObject: { showSideBar },
         isMobileViewObject: { isMobileView },
+        openProjectWindowObject: { openProjectWindow },
     } = useAppContext();
     return (
         <div className="w-full h-screen bg-slate-50 p-3">

@@ -174,7 +174,6 @@ export default function TopBar() {
         function handleClicked() {
             setOpenDarkModeMenu(!openDarkModeMenu);
         }
-        console.log(darkModeMenu);
         return (
             <div onClick={handleClicked} className="relative">
                 <div className="text-sky-500">

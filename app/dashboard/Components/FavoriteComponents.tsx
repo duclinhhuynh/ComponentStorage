@@ -6,9 +6,11 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useAppContext } from "@/app/ContextApi";
 import { AppComponent } from "../../allData";
 import { formatDate } from "@/app/utils/formatDate";
+import CircularProgress from '@mui/material/CircularProgress';
 export default function FavoriteComponents() {
     const {
         allFavoriteComponentsObject: { allFavoriteComponents },
+        isLoadingObject: { isLoading }
     } = useAppContext();
     return (
         <div className=" bg-white w-full p-8 rounded-1g mt-4 ">
@@ -29,15 +31,27 @@ export default function FavoriteComponents() {
                 <span className="">Actions</span>
             </div>
             {/* Components */}
-            <div className="px-4 flex flex-col gap-1 mt-1">
-                {allFavoriteComponents.map((component, index) => (
-                    <div key={index}>
-                        <SingleFavoriteComponent component={component} />
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
+            {isLoading && (
+                <div className="flex flex-col gap-3 justify-center items-center w-full mt-[70px] mb-7">
+                    <CircularProgress value={100} />
+                    <span className="text-slate-400 text-sm">Loading...</span>
+                </div>
+                )}
+            {!isLoading && allFavoriteComponents.length === 0 ? (
+                <div className="flex justify-center items-center mt-[70px] mb-8 text-slate-400 text-sm">
+                    No favorite components set yet...
+                </div>
+            ) : (
+                <div className="px-4 flex flex-col gap-1 mt-1">
+                    {allFavoriteComponents.slice(0, 5).map((component, index) => (
+                        <div key={index}>
+                            <SingleFavoriteComponent component={component} />
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div >
+    );
     function SingleFavoriteComponent({ component }: { component: AppComponent }) {
         return (
             <div className="grid grid-cols-4 gap-4 text-sm items-center rounded-lg p-2 max-sm:grid-cols-2">

@@ -29,8 +29,7 @@ interface AppContextType {
     darkModeMenuObject: {
         darkModeMenu: DarkModeMenu[];
         setDarkModeMenu: React.Dispatch<React.SetStateAction<DarkModeMenu[]>>;
-    }
-
+    };
     openSideBarObject: {
         openSideBar: boolean;
         setOpenSideBar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,11 +37,11 @@ interface AppContextType {
     openDarkModeMenuObject: {
         openDarkModeMenu: boolean;
         setOpenDarkModeMenu: React.Dispatch<React.SetStateAction<boolean>>;
-    }
+    };
     showSearchBarObject: {
         showSearchBar: boolean;
         setShowSearchBar: React.Dispatch<React.SetStateAction<boolean>>;
-    }
+    };
     isMobileViewObject: {
         isMobileView: boolean;
         setIsMobileView: React.Dispatch<React.SetStateAction<boolean>>;
@@ -50,7 +49,7 @@ interface AppContextType {
     showSideBarObject: {
         showSideBar: boolean;
         setShowSideBar: React.Dispatch<React.SetStateAction<boolean>>;
-    }
+    };
     allProjectsObject: {
         allProjects: Project[];
         setAllProjects: React.Dispatch<React.SetStateAction<Project[]>>;
@@ -58,11 +57,15 @@ interface AppContextType {
     allFavoriteComponentsObject: {
         allFavoriteComponents: AppComponent[],
         setAllFavoriteComponents: React.Dispatch<React.SetStateAction<AppComponent[]>>;
-    }
+    };
     isLoadingObject: {
         isLoading: boolean;
         setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-    }
+    };
+    openProjectWindowObject: {
+        openProjectWindow: boolean;
+        setOpenProjectWindow: React.Dispatch<React.SetStateAction<boolean>>;
+    };
 }
 const defaultState: AppContextType = {
     menuItemsObject: {
@@ -105,6 +108,10 @@ const defaultState: AppContextType = {
         isLoading: true,
         setIsLoading: () => { },
     },
+    openProjectWindowObject: {
+        openProjectWindow: false,
+        setOpenProjectWindow: () => { throw new Error("setOpenProjectWindow called outside of AppProvider"); },
+    }
 };
 
 const AppContext = createContext<AppContextType>(defaultState);
@@ -122,6 +129,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         return true; // Default value if window is not defined
     });
     const [openDarkModeMenu, setOpenDarkModeMenu] = useState(false);
+    const [openProjectWindow, setOpenProjectWindow] = useState(false);
     const [darkModeMenu, setDarkModeMenu] = useState<DarkModeMenu[]>([
         {
             id: "1",
@@ -136,7 +144,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             isSelected: false,
         },
     ]);
-
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [isMobileView, setIsMobileView] = useState(false);
     const [showSideBar, setShowSideBar] = useState(true);
@@ -175,6 +182,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             );
             setAllFavoriteComponents(favoriteComponents);
         }
+    console.log("openProjectWindow", openProjectWindow);
+
     }, [allProjects]);
     return (
         <AppContext.Provider
@@ -189,6 +198,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 allProjectsObject: { allProjects, setAllProjects },
                 isLoadingObject: { isLoading, setIsLoading },
                 allFavoriteComponentsObject: { allFavoriteComponents, setAllFavoriteComponents },
+                openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
             }}
         >
             {children}

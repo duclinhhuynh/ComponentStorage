@@ -11,6 +11,7 @@ export default function AllProjects() {
     const {
         allProjectsObject: { allProjects },
         isLoadingObject: { isLoading },
+        openProjectWindowObject: { setOpenProjectWindow },
     } = useAppContext();
     return (
         // The main container
@@ -24,9 +25,12 @@ export default function AllProjects() {
                 </div>
                 {/* New project button */}
                 {!isLoading && allProjects.length > 0 && (
-                    <button className="bg-sky-500 text-white text-[12px] px-3 py-[2px] rounded-md">
+                    <button
+                        onClick={() => setOpenProjectWindow(true)}
+                        className="bg-sky-500 text-white text-[12px] px-3 py-[2px] rounded-md">
                         <AddOutlined fontSize="small" />
-                        <span className="text-[13px]">New Project</span>
+                        <span className="text-[13px]"
+                        >New Project</span>
                     </button>
                 )
                 }
