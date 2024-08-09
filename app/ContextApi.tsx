@@ -73,6 +73,10 @@ interface AppContextType {
     showComponentPageObject: {
         showComponentPage: boolean;
         setShowComponentPage: React.Dispatch<React.SetStateAction<boolean>>;
+    };
+    selectedProjectObject: {
+        selectedProject: Project | null;
+        setSelectedProject: React.Dispatch<React.SetStateAction<Project | null>>;
     }
 }
 const defaultState: AppContextType = {
@@ -122,11 +126,15 @@ const defaultState: AppContextType = {
     },
     openIconWindowObject: {
         openIconWindow: false,
-        setOpenIconWindow: () => { },
+        setOpenIconWindow: () => {},
     },
     showComponentPageObject: {
         showComponentPage: false,
-        setShowComponentPage: () => { },
+        setShowComponentPage: () => {},
+    },
+    selectedProjectObject: {
+        selectedProject: null,
+        setSelectedProject: () => {}
     }
 };
 
@@ -168,6 +176,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const [allFavoriteComponents, setAllFavoriteComponents] = useState<AppComponent[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showComponentPage, setShowComponentPage] = useState(false);
+    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     useEffect(() => {
         function fetchAllProjects() {
             setTimeout(() => {
@@ -199,8 +208,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             );
             setAllFavoriteComponents(favoriteComponents);
         }
-        console.log("openProjectWindow", openProjectWindow);
-
     }, [allProjects]);
     return (
         <AppContext.Provider
@@ -218,6 +225,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
                 openIconWindowObject: { openIconWindow, setOpenIconWindow },
                 showComponentPageObject: { showComponentPage, setShowComponentPage },
+                selectedProjectObject: { selectedProject, setSelectedProject },
             }}
         >
             {children}

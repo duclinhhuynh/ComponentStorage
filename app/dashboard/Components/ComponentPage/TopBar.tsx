@@ -4,10 +4,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useAppContext } from "@/app/ContextApi";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { Project } from "@/app/allData";
 export default function TopBar() {
     const {
         showComponentPageObject: { setShowComponentPage },
         showSideBarObject: { setShowSideBar, showSideBar },
+        selectedProjectObject: { selectedProject },
     } = useAppContext();
     return (
         <div className="flex justify-between items-center gap-4 bg-white p-3 px-4 rounded-lg">
@@ -23,7 +25,7 @@ export default function TopBar() {
                 <div className="flex gap-2 items-center">
                     <div className="flex flex-col">
                         <span className="font-bold text-x1">Buttons</span>
-                        <span className="text-slate-400 text-[11px] ">10 Components</span>
+                        <span className="text-slate-400 text-[11px] ">{selectedProject?.components.length} components</span>
                     </div>
                 </div>
             </div>

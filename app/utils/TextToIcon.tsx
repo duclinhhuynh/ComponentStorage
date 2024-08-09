@@ -129,9 +129,11 @@ import ZoomOutIcon from '@mui/icons-material/ZoomOut';
 export function TextToIcon({
     text,
     size,
+    className,
 }: {
     text: string;
     size?: "small" | "medium" | "large";
+    className: string;
 }) {
     switch (text) {
         case "Python":

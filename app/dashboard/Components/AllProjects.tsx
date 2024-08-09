@@ -56,10 +56,12 @@ export default function AllProjects() {
     );
     function SingleProject({ singleProject }: { singleProject: Project }) {
         const {
-            showComponentPageObject: { showComponentPage, setShowComponentPage }
+            showComponentPageObject: { showComponentPage, setShowComponentPage },
+            selectedProjectObject: { selectedProject, setSelectedProject},
         } = useAppContext();
         function projectClicked() {
             setShowComponentPage(true);
+            setSelectedProject(singleProject);
         }
         return (
             <div
@@ -68,7 +70,7 @@ export default function AllProjects() {
             >
                 {/* The Icon */}
                 <div className="w-[50px] h-[50px] p-3 bg-sky-100 rounded-full flex items-center justify-center">
-                    {TextToIcon({ text: singleProject.icon, size: "medium" })}
+                    {TextToIcon({ text: singleProject.icon, size: "medium" , className:""})}
                     {/* <LandslideIcon className="text-[30px] text-sky-400" /> */}
                 </div >
                 {/* Name and components count */}
@@ -76,10 +78,10 @@ export default function AllProjects() {
                     <span
                         onClick={projectClicked}
                         className="font-semibold text-lg cursor-pointer hover:text-sky-500 select-none">
-                        {singleProject.name}
+                        {singleProject?.name}
                     </span>
                     <span className="text-[12px] text-slate-400 text-center">
-                        {singleProject.components.length} Components
+                        {singleProject?.components.length} Components
                     </span>
                 </div >
             </div >
