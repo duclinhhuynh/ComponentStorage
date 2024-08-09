@@ -8,6 +8,7 @@ import IconsWindow from "./Components/IconWindow";
 import { IconData } from "../allIconData";
 import { FaPython } from "react-icons/fa";
 import toast, { Toaster } from 'react-hot-toast';
+import ComponentPage from "./ComponentPage";
 interface SelectedIcon {
   icon: React.ReactNode;
   name: string;
@@ -15,6 +16,7 @@ interface SelectedIcon {
 function Dashboard() {
   const {
     openProjectWindowObject: { openProjectWindow },
+    showComponentPageObject: { showComponentPage },
   } = useAppContext();
   const [selectedIcon, setSelectedIcon] = React.useState<SelectedIcon>({
     icon: <FaPython />,
@@ -31,7 +33,7 @@ function Dashboard() {
       <AddProjects selectedIcon={selectedIcon} />
       {openProjectWindow && <SoftLayer />}
       <SideBar />
-      <ContentArea />
+      {!showComponentPage ? <ContentArea /> : <ComponentPage/>}
     </div>
   );
 }

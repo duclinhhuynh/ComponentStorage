@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useState, ReactNode, useContext, useEffect} from "react";
+import React, { createContext, useState, ReactNode, useContext, useEffect } from "react";
 import CategoryIcon from "@mui/icons-material/Category";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -67,8 +67,12 @@ interface AppContextType {
         setOpenProjectWindow: React.Dispatch<React.SetStateAction<boolean>>;
     };
     openIconWindowObject: {
-        openIconWindow:boolean;
+        openIconWindow: boolean;
         setOpenIconWindow: React.Dispatch<React.SetStateAction<boolean>>;
+    };
+    showComponentPageObject: {
+        showComponentPage: boolean;
+        setShowComponentPage: React.Dispatch<React.SetStateAction<boolean>>;
     }
 }
 const defaultState: AppContextType = {
@@ -119,6 +123,10 @@ const defaultState: AppContextType = {
     openIconWindowObject: {
         openIconWindow: false,
         setOpenIconWindow: () => { },
+    },
+    showComponentPageObject: {
+        showComponentPage: false,
+        setShowComponentPage: () => { },
     }
 };
 
@@ -138,7 +146,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
     const [openDarkModeMenu, setOpenDarkModeMenu] = useState(false);
     const [openProjectWindow, setOpenProjectWindow] = useState(false);
-    const [openIconWindow,  setOpenIconWindow] = useState(false);
+    const [openIconWindow, setOpenIconWindow] = useState(false);
     const [darkModeMenu, setDarkModeMenu] = useState<DarkModeMenu[]>([
         {
             id: "1",
@@ -159,6 +167,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const [allProjects, setAllProjects] = useState<Project[]>([]);
     const [allFavoriteComponents, setAllFavoriteComponents] = useState<AppComponent[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [showComponentPage, setShowComponentPage] = useState(false);
     useEffect(() => {
         function fetchAllProjects() {
             setTimeout(() => {
@@ -167,7 +176,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         }
         fetchAllProjects();
     }, []);
-
     useEffect(() => {
         function handleResize() {
             setIsMobileView(window.innerWidth <= 640);
@@ -191,7 +199,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             );
             setAllFavoriteComponents(favoriteComponents);
         }
-    console.log("openProjectWindow", openProjectWindow);
+        console.log("openProjectWindow", openProjectWindow);
 
     }, [allProjects]);
     return (
@@ -208,7 +216,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 isLoadingObject: { isLoading, setIsLoading },
                 allFavoriteComponentsObject: { allFavoriteComponents, setAllFavoriteComponents },
                 openProjectWindowObject: { openProjectWindow, setOpenProjectWindow },
-                openIconWindowObject: { openIconWindow, setOpenIconWindow},
+                openIconWindowObject: { openIconWindow, setOpenIconWindow },
+                showComponentPageObject: { showComponentPage, setShowComponentPage },
             }}
         >
             {children}

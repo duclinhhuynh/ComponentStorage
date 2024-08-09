@@ -12,7 +12,7 @@ export default function ContentArea() {
         openProjectWindowObject: { openProjectWindow },
     } = useAppContext();
     return (
-        <div className="w-full h-screen bg-slate-50 p-3">
+        <div className="w-full h-full bg-slate-50 p-3">
             <TopBar />
             {isMobileView && showSideBar && <SoftLayer />}
             <StatsBar/>

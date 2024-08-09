@@ -55,6 +55,12 @@ export default function AllProjects() {
         </div>
     );
     function SingleProject({ singleProject }: { singleProject: Project }) {
+        const {
+            showComponentPageObject: { showComponentPage, setShowComponentPage }
+        } = useAppContext();
+        function projectClicked() {
+            setShowComponentPage(true);
+        }
         return (
             <div
                 className="w-[200px] border border-slate-100 rounded-md p-5 flex gap-2 justify-center flex-col
@@ -67,7 +73,9 @@ export default function AllProjects() {
                 </div >
                 {/* Name and components count */}
                 < div className="flex flex-col items-center justify-center" >
-                    <span className="font-semibold text-lg cursor-pointer hover:text-sky-500 select-none">
+                    <span
+                        onClick={projectClicked}
+                        className="font-semibold text-lg cursor-pointer hover:text-sky-500 select-none">
                         {singleProject.name}
                     </span>
                     <span className="text-[12px] text-slate-400 text-center">
