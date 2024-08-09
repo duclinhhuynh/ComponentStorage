@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import { IconButton } from "@mui/material";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { SiJavascript } from "react-icons/si";
 import { formatDate } from "@/app/utils/formatDate";
@@ -43,8 +42,6 @@ export default function AllComponents() {
         </div>
     );
 
-
-
     function SingleNote({ component }: { component: AppComponent }) {
         interface CodeBlockProps {
             language: string;
@@ -52,7 +49,7 @@ export default function AllComponents() {
         const CodeBlock: React.FC<CodeBlockProps> = ({ language }) => {
             const codeString = component.code;
             return (
-                <div className="rounded-md overflow-hidden h-[250px]">
+                <div className="rounded-md max-sm:w-[90%] overflow-hidden h-[250px]">
                     <div className="h-full overflow-y-auto p-2 custom-scroll">
                         <SyntaxHighlighter language={language} style={oneDark}>
                             {codeString}
@@ -104,7 +101,7 @@ export default function AllComponents() {
             };
         
             return (
-                <div className="flex justify-between mx-4">
+                <div className="flex justify-between mx-4 cursor-pointer">
                     <span className="font-bold text-lg w-[87%] cursor-pointer">
                         {component.name}
                     </span>

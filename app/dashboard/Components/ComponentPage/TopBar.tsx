@@ -10,6 +10,7 @@ export default function TopBar() {
         showComponentPageObject: { setShowComponentPage },
         showSideBarObject: { setShowSideBar, showSideBar },
         selectedProjectObject: { selectedProject },
+        openComponentEditorObject: { setOpenComponentEditor},
     } = useAppContext();
     return (
         <div className="flex justify-between items-center gap-4 bg-white p-3 px-4 rounded-lg">
@@ -45,7 +46,9 @@ export default function TopBar() {
             </div>
             {/* Add Component Button */}
             <div className="flex gap-2 items-center">
-                <button className="bg-sky-500 text-[12px] h-[33px] text-white px-3 rounded-md">
+                <button 
+                onClick={() => setOpenComponentEditor(true)}
+                className="bg-sky-500 text-[12px] h-[33px] text-white px-3 rounded-md">
                     <AddOutlined sx={{ fontSize: 16 }} className="" />
                     <span className="max-sm:hidden">Component</span>
                 </button>

@@ -77,6 +77,10 @@ interface AppContextType {
     selectedProjectObject: {
         selectedProject: Project | null;
         setSelectedProject: React.Dispatch<React.SetStateAction<Project | null>>;
+    };
+    openComponentEditorObject: {
+        openComponentEditor: boolean;
+        setOpenComponentEditor: React.Dispatch<React.SetStateAction<boolean>>;
     }
 }
 const defaultState: AppContextType = {
@@ -135,6 +139,10 @@ const defaultState: AppContextType = {
     selectedProjectObject: {
         selectedProject: null,
         setSelectedProject: () => {}
+    },
+    openComponentEditorObject: {
+        openComponentEditor: false,
+        setOpenComponentEditor: () => {} 
     }
 };
 
@@ -177,6 +185,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const [isLoading, setIsLoading] = useState(false);
     const [showComponentPage, setShowComponentPage] = useState(false);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+    const [openComponentEditor, setOpenComponentEditor] = useState(false);
     useEffect(() => {
         function fetchAllProjects() {
             setTimeout(() => {
@@ -226,6 +235,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 openIconWindowObject: { openIconWindow, setOpenIconWindow },
                 showComponentPageObject: { showComponentPage, setShowComponentPage },
                 selectedProjectObject: { selectedProject, setSelectedProject },
+                openComponentEditorObject: { openComponentEditor, setOpenComponentEditor}
             }}
         >
             {children}

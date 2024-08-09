@@ -52,7 +52,7 @@ export default function SideBar() {
         <div
             ref={menuRef}
             style={{ position: isMobileView ? "fixed" : "relative" }}
-            className={`${openSideBar ? "w-[320px] p-6" : "w-[100px] p-4"} h-screen pt-12 relative transition-all duration-300 z-50 bg-white ${showSideBar ? "block" : "hidden"}`}>
+            className={`${openSideBar ? "w-[320px] p-6" : "w-[100px] p-4"} h-screen pt-12 relative transition-all duration-300  bg-white ${showSideBar ? "block" : "hidden"}`}>
             <RoundedArrowIcon />
             <Logo />
             <Links />
@@ -68,7 +68,7 @@ export default function SideBar() {
         return (
             <div
                 onClick={handleClick}
-                className="w-7 h-7 z-40 rounded-full absolute right-[-11px] top-[95px] flex items-center justify-center">
+                className="w-7 h-7 rounded-full absolute right-[-11px] top-[95px] flex items-center justify-center">
                 <div className="bg-sky-500 rounded-full w-[76%] h-[70%] flex items-center justify-center cursor-pointer">
                     {openSideBar ?
                         (

@@ -1,3 +1,4 @@
+import React from "react";
 import { FaJava } from "react-icons/fa";
 import { BiLogoTypescript } from "react-icons/bi";
 import { BiLogoJavascript } from "react-icons/bi";
