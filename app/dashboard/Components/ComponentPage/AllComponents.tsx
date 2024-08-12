@@ -21,12 +21,14 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { useAppContext } from "@/app/ContextApi";
 import { AppComponent, Project } from "@/app/allData";
 import Checkbox from '@mui/material/Checkbox';
-import { Favorite,CheckBox} from "@mui/icons-material/";
+import { Favorite, CheckBox } from "@mui/icons-material/";
 
 export default function AllComponents() {
     const {
-        selectedProjectObject: { selectedProject, setSelectedProject},
-        allProjectsObject: { allProjects, setAllProjects},
+        selectedProjectObject: { selectedProject, setSelectedProject },
+        allProjectsObject: { allProjects, setAllProjects },
+        selectedComponentObject: { selectedComponent, setSelectedComponent },
+        openComponentEditorObject: {setOpenComponentEditor}
     } = useAppContext();
     return (
         <div className="mt-5 flex flex-wrap gap-5">
@@ -45,6 +47,10 @@ export default function AllComponents() {
     function SingleNote({ component }: { component: AppComponent }) {
         interface CodeBlockProps {
             language: string;
+        }
+        function openTheComponentEditor() {
+            setSelectedComponent(component);
+            setOpenComponentEditor(true);
         }
         const CodeBlock: React.FC<CodeBlockProps> = ({ language }) => {
             const codeString = component.code;
@@ -81,9 +87,9 @@ export default function AllComponents() {
                 });
                 return { ...project, components: updatedComponents };
             });
-        
+
             setAllProjects(newAllProjects);
-        
+
             if (selectedProject) {
                 const updatedSelectedProject = newAllProjects.find(
                     (project: Project) => project._id === selectedProject._id
@@ -99,10 +105,12 @@ export default function AllComponents() {
                 setFavorite(!isFavorite); // update state of local
                 updateFavoriteState(component._id); // update state in context
             };
-        
+
             return (
                 <div className="flex justify-between mx-4 cursor-pointer">
-                    <span className="font-bold text-lg w-[87%] cursor-pointer">
+                    <span
+                        onClick={openTheComponentEditor}
+                        className="font-bold text-lg w-[87%] cursor-pointer hover:text-sky-500">
                         {component.name}
                     </span>
                     <Checkbox
@@ -119,7 +127,7 @@ export default function AllComponents() {
         function NoteTags({ component }: { component: AppComponent }) {
             return (
                 <div className="text-slate-500 text-[11px] mx-4 flex-wrap flex gap-1 mt-4">
-                    {component.tag.map((item, index) => (
+                    {component.tags.map((item, index) => (
                         <span
                             key={index}
                             className="bg-sky-100 text-purple-600 p-1 rounded-md px-2">
@@ -137,9 +145,14 @@ export default function AllComponents() {
             );
         }
         function NoteDescription({ component }: { component: AppComponent }) {
+            const maxLength = 250; // Set the maximum number of characters to display
+            const truncatedDesc =
+                component.desc.length > maxLength
+                    ? `${component.desc.slice(0, maxLength)}...`
+                    : component.desc
             return (
                 <div className="text-slate-600 text-[13px] mt-4 mx-4">
-                    {component.desc}
+                    {truncatedDesc}
                 </div>
             );
         }

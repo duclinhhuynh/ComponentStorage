@@ -4,7 +4,7 @@ export interface AppComponent {
     name: string;
     projectName: string;
     code: string;
-    tag: string[];
+    tags: string[];
     desc: string;
     isFavorite: boolean;
     createdAt: string;
@@ -30,7 +30,7 @@ export const allProjectsData: Project[] = [
                 _id: uuidv4(),
                 name: "Form 1",
                 projectName: "Forms",
-                tag: ["hash map", "function"],
+                tags: ["hash map", "function"],
                 desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
                 code: "",
                 isFavorite: false,
@@ -40,7 +40,7 @@ export const allProjectsData: Project[] = [
                 _id: uuidv4(),
                 name: "Form 2",
                 projectName: "Forms",
-                tag: ["tree", "function"],
+                tags: ["tree", "function"],
                 desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
                 code: "",
                 isFavorite: false,
@@ -50,7 +50,7 @@ export const allProjectsData: Project[] = [
                 _id: uuidv4(),
                 name: "Form 3",
                 projectName: "Forms",
-                tag: ["fix", "function"],
+                tags: ["fix", "function"],
                 desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
                 code: "",
                 isFavorite: false,
@@ -68,7 +68,7 @@ export const allProjectsData: Project[] = [
                 _id: uuidv4(),
                 name: "Form 1",
                 projectName: "Forms",
-                tag: ["feat", "function"],
+                tags: ["feat", "function"],
                 desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
                 code: `def removeElement(nums, val):
     k = 0  # Initialize k to 0
@@ -90,7 +90,7 @@ export const allProjectsData: Project[] = [
                 _id: uuidv4(),
                 name: "Form2",
                 projectName: "Button",
-                tag: ["fix", "function"],
+                tags: ["fix", "function"],
                 desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
                 code: `
                 function Features() {
@@ -155,7 +155,7 @@ history of modifications."
                 _id: uuidv4(),
                 name: "Form2",
                 projectName: "Button",
-                tag: ["fix", "function"],
+                tags: ["fix", "function"],
                 desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
                 code: `function Logo() {
   return (
