@@ -1,76 +1,76 @@
 import { v4 as uuidv4 } from 'uuid';
 export interface AppComponent {
-    _id: string;
-    name: string;
-    projectName: string;
-    code: string;
-    tags: string[];
-    desc: string;
-    isFavorite: boolean;
-    createdAt: string;
+  _id: string;
+  name: string;
+  projectName: string;
+  code: string;
+  tags: string[];
+  desc: string;
+  isFavorite: boolean;
+  createdAt: string;
 }
 export interface Project {
-    _id: string;
-    clerkUserId: string;
-    name: string;
-    icon: string;
-    createdAt: string;
-    components: AppComponent[];
+  _id: string;
+  clerkUserId: string;
+  name: string;
+  icon: string;
+  createdAt: string;
+  components: AppComponent[];
 }
 
 export const allProjectsData: Project[] = [
-    {
+  {
+    _id: uuidv4(),
+    clerkUserId: "",
+    name: "Forms",
+    icon: "JavaScript",
+    createdAt: "2022-01-01T00:00:00.000Z",
+    components: [
+      {
         _id: uuidv4(),
-        clerkUserId: "",
-        name: "Forms",
-        icon: "JavaScript",
+        name: "Form 1",
+        projectName: "Forms",
+        tags: ["hash map", "function"],
+        desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
+        code: "",
+        isFavorite: false,
         createdAt: "2022-01-01T00:00:00.000Z",
-        components: [
-            {
-                _id: uuidv4(),
-                name: "Form 1",
-                projectName: "Forms",
-                tags: ["hash map", "function"],
-                desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
-                code: "",
-                isFavorite: false,
-                createdAt: "2022-01-01T00:00:00.000Z",
-            },
-            {
-                _id: uuidv4(),
-                name: "Form 2",
-                projectName: "Forms",
-                tags: ["tree", "function"],
-                desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
-                code: "",
-                isFavorite: false,
-                createdAt: "2022-02-01T00:00:00.000Z",
-            },
-            {
-                _id: uuidv4(),
-                name: "Form 3",
-                projectName: "Forms",
-                tags: ["fix", "function"],
-                desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
-                code: "",
-                isFavorite: false,
-                createdAt: "2022-02-01T00:00:00.000Z",
-            },
-        ],
-    }, {
+      },
+      {
         _id: uuidv4(),
-        clerkUserId: "",
-        name: "Compo",
-        icon: "TypeScript",
-        createdAt: "2022-01-01T00:00:00.000Z",
-        components: [
-            {
-                _id: uuidv4(),
-                name: "Form 1",
-                projectName: "Forms",
-                tags: ["feat", "function"],
-                desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
-                code: `def removeElement(nums, val):
+        name: "Form 2",
+        projectName: "Forms",
+        tags: ["tree", "function"],
+        desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
+        code: "",
+        isFavorite: false,
+        createdAt: "2022-02-01T00:00:00.000Z",
+      },
+      {
+        _id: uuidv4(),
+        name: "Form 3",
+        projectName: "Forms",
+        tags: ["fix", "function"],
+        desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
+        code: "",
+        isFavorite: false,
+        createdAt: "2022-02-01T00:00:00.000Z",
+      },
+    ],
+  }, {
+    _id: uuidv4(),
+    clerkUserId: "",
+    name: "Compo",
+    icon: "TypeScript",
+    createdAt: "2022-01-01T00:00:00.000Z",
+    components: [
+      {
+        _id: uuidv4(),
+        name: "Form 1",
+        projectName: "Forms",
+        tags: ["feat", "function"],
+        desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
+        code: `def removeElement(nums, val):
     k = 0  # Initialize k to 0
 
     for i in range(len(nums)):
@@ -83,16 +83,16 @@ export const allProjectsData: Project[] = [
         nums[i] = '_'
 
     return k`,
-                isFavorite: false,
-                createdAt: "2022-01-01T00:00:00.000Z",
-            },
-            {
-                _id: uuidv4(),
-                name: "Form2",
-                projectName: "Button",
-                tags: ["fix", "function"],
-                desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
-                code: `
+        isFavorite: false,
+        createdAt: "2022-01-01T00:00:00.000Z",
+      },
+      {
+        _id: uuidv4(),
+        name: "Form2",
+        projectName: "Button",
+        tags: ["fix", "function"],
+        desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
+        code: `
                 function Features() {
   const features = [
     {
@@ -148,16 +148,16 @@ history of modifications."
   );
 }          
 `,
-                isFavorite: false,
-                createdAt: "2022-02-01T00:00:00.000Z",
-            },
-            {
-                _id: uuidv4(),
-                name: "Form2",
-                projectName: "Button",
-                tags: ["fix", "function"],
-                desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
-                code: `function Logo() {
+        isFavorite: false,
+        createdAt: "2022-02-01T00:00:00.000Z",
+      },
+      {
+        _id: uuidv4(),
+        name: "Form2",
+        projectName: "Button",
+        tags: ["fix", "function"],
+        desc: "The primary purpose of sum() is to provide a Pythonic way to add numeric values together. Up to this point, you’ve seen how to use the function to sum integer numbers.",
+        code: `function Logo() {
   return (
     <div className="flex gap-2 items-center">
       {/* Icon Container */}
@@ -172,10 +172,11 @@ history of modifications."
         <span className="text-slate-600">Component</span>
       </div>
     </div>
-  );`,
-                isFavorite: false,
-                createdAt: "2022-02-01T00:00:00.000Z",
-            },
-        ],
-    }
+            )
+    };`,
+        isFavorite: false,
+        createdAt: "2022-02-01T00:00:00.000Z",
+      },
+    ],
+  }
 ]
