@@ -14,17 +14,15 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import DescriptionIcon from '@mui/icons-material/Description';
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import StyleOutlinedIcon from '@mui/icons-material/StyleOutlined';
 import Checkbox from "@mui/material/Checkbox";
 import { useAppContext } from "@/app/ContextApi";
-import { AppComponent } from "../../../allData";
+import { AppComponent } from "@/app/allData";
 import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 import { IconButton } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-export function ComponentEditor() {
+export function ComponentEditor({ component }: { component?: AppComponent }) {
     const [code, setCode] = useState(`function HelloWorld() {
     return <h1 style={{ color: 'blue' }}>Hello, world!</h1>;
   }`);
@@ -35,9 +33,9 @@ export function ComponentEditor() {
     const editorRef = useRef(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const [tags, setTags] = useState<string[]>([]);
+    const [isFavorite, setFavorite] = useState(component?.isFavorite);
     // Explicitly typing the ref as pointing to an HTMLTextAreaElement
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-
     useEffect(() => {
         if (textareaRef.current) {
             // Reset height to 'auto' to calculate the new scrollHeight
@@ -53,7 +51,6 @@ export function ComponentEditor() {
         allProjectsObject: { allProjects, setAllProjects },
         selectedComponentObject: { selectedComponent, setSelectedComponent },
     } = useAppContext();
-
     const formatCode = async (codeToFormat: string) => {
         if (editorRef.current) {
             try {
@@ -317,6 +314,7 @@ export function ComponentEditor() {
             </div>
         );
     }
+
     return (
         <div
             style={{
@@ -368,7 +366,10 @@ export function ComponentEditor() {
                                     <span>Component Name</span>
                                 </span>
                                 <div>
-                                    <Checkbox icon={<FavoriteBorderIcon sx={{ fontSize: 19 }} />
+                                    <Checkbox 
+                                    onChange={() => updateTheFavoriteState()}
+                                    checked={isFavorite}
+                                    icon={<FavoriteBorderIcon sx={{ fontSize: 19 }} />
                                     } checkedIcon={<FavoriteIcon sx={{ fontSize: 19 }} className="text-red-500" />} />
                                 </div>
                             </div>
@@ -437,10 +438,6 @@ export function ComponentEditor() {
                         <div className="editor-container" style={{ height: "100%", width: "100%" }}>
                             {/* Monaco Editor */}
                             <Editor
-                                // ref={editorRef}
-                                // onLoad= {(editorInstance) => {
-                                //     editorInstanceRef.current = editorInstance;
-                                // }}
                                 height="600px"
                                 language="javascript"
                                 value={code}

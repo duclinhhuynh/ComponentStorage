@@ -9,6 +9,8 @@ import { IconData } from "../allIconData";
 import { FaPython } from "react-icons/fa";
 import toast, { Toaster } from 'react-hot-toast';
 import ComponentPage from "./ComponentPage";
+import {ComponentEditor} from "./Components/ComponentPage/ComponentEditor"
+import DeleteWindow from "./Components/DeleteWindow";
 interface SelectedIcon {
   icon: React.ReactNode;
   name: string;
@@ -17,6 +19,8 @@ function Dashboard() {
   const {
     openProjectWindowObject: { openProjectWindow },
     showComponentPageObject: { showComponentPage },
+    openComponentEditorObject: { openComponentEditor },
+    openDeleteWindowObject : { openDeletedWindow }, 
   } = useAppContext();
   const [selectedIcon, setSelectedIcon] = React.useState<SelectedIcon>({
     icon: <FaPython />,
@@ -34,6 +38,18 @@ function Dashboard() {
       {openProjectWindow && <SoftLayer />}
       <SideBar/>
       {!showComponentPage ? <ContentArea /> : <ComponentPage/>}
+      {openComponentEditor && (
+        <>
+          <SoftLayer />
+          <ComponentEditor />
+        </>
+      )}
+      {openDeletedWindow && (
+        <>
+          <SoftLayer />
+          <DeleteWindow />
+        </>
+      )}
     </div>
   );
 }

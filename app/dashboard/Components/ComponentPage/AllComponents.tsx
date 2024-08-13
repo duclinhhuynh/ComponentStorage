@@ -20,15 +20,15 @@ import {
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { useAppContext } from "@/app/ContextApi";
 import { AppComponent, Project } from "@/app/allData";
+import DeleteWindow from "../DeleteWindow";
 import Checkbox from '@mui/material/Checkbox';
-import { Favorite, CheckBox } from "@mui/icons-material/";
-
 export default function AllComponents() {
     const {
         selectedProjectObject: { selectedProject, setSelectedProject },
         allProjectsObject: { allProjects, setAllProjects },
-        selectedComponentObject: { selectedComponent, setSelectedComponent },
-        openComponentEditorObject: {setOpenComponentEditor}
+        selectedComponentObject: { setSelectedComponent },
+        openComponentEditorObject: { setOpenComponentEditor },
+        openDeleteWindowObject: { setOpenDeletedWindow },
     } = useAppContext();
     return (
         <div className="mt-5 flex flex-wrap gap-5">
@@ -157,13 +157,28 @@ export default function AllComponents() {
             );
         }
         function NoteFooter() {
+            function openTheDeleteWindow() {
+                const project = allProjects.find(
+                    (project) =>
+                        project.name.toLowerCase() === component.projectName.toLowerCase()
+                );
+                if (project) {
+                    setSelectedProject(project);
+                } else {
+                    console.error(`project not found for component: ${component.name}`);
+                }
+                setSelectedComponent(component);
+                setOpenDeletedWindow(true);
+            }
             return (
                 <div className="flex justify-between text-[13px] text-slate-400 mx-4 mt-3">
                     <div className="flex gap-1 items-center">
                         <SiJavascript size={15} className="mb-[2px]" />
                         Javascript
                     </div>
-                    <DeleteRoundedIcon sx={{ fontSize: 17 }} className="cursor-pointer" />
+                    <div onClick={() => openTheDeleteWindow()}>
+                        <DeleteRoundedIcon sx={{ fontSize: 17 }} className="cursor-pointer" />
+                    </div>
                 </div>
             );
         }

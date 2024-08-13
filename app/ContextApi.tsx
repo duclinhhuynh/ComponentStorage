@@ -38,6 +38,10 @@ interface AppContextType {
         openDarkModeMenu: boolean;
         setOpenDarkModeMenu: React.Dispatch<React.SetStateAction<boolean>>;
     };
+    openDeleteWindowObject: {
+        openDeletedWindow: boolean;
+        setOpenDeletedWindow: React.Dispatch<React.SetStateAction<boolean>>;
+    }
     showSearchBarObject: {
         showSearchBar: boolean;
         setShowSearchBar: React.Dispatch<React.SetStateAction<boolean>>;
@@ -151,7 +155,11 @@ const defaultState: AppContextType = {
     selectedComponentObject: {
         selectedComponent: null,
         setSelectedComponent: () => {}
-    }
+    },
+    openDeleteWindowObject: {
+        openDeletedWindow: false,
+        setOpenDeletedWindow: () => {},
+    },
 };
 
 const AppContext = createContext<AppContextType>(defaultState);
@@ -195,6 +203,8 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
     const [selectedComponent, setSelectedComponent] = useState<AppComponent |null>(null);
     const [openComponentEditor, setOpenComponentEditor] = useState(false);
+    const [openDeletedWindow , setOpenDeletedWindow] = useState(false);
+    
     useEffect(() => {
         function fetchAllProjects() {
             setTimeout(() => {
@@ -246,6 +256,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 selectedProjectObject: { selectedProject, setSelectedProject },
                 openComponentEditorObject: { openComponentEditor, setOpenComponentEditor},
                 selectedComponentObject: { selectedComponent, setSelectedComponent },
+                openDeleteWindowObject: { openDeletedWindow, setOpenDeletedWindow },
             }}
         >
             {children}
