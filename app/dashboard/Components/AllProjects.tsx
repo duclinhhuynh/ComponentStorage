@@ -2,7 +2,7 @@
 import React from "react";
 import LandslideIcon from "@mui/icons-material/Landslide";
 import CircularProgress from '@mui/material/CircularProgress';
-import AddModeratorIcon from '@mui/icons-material/AddModerator';
+import NoteAddSharpIcon from '@mui/icons-material/NoteAddSharp';
 import { AddOutlined } from "@mui/icons-material";
 import { useAppContext } from "@/app/ContextApi";
 import { TextToIcon } from "../../utils/TextToIcon";
@@ -92,7 +92,7 @@ export default function AllProjects() {
 export function EmptyProjectsPlaceholder() {
     return (
         <div className=" p-1 gap-5 flex flex-col justify-center h-[200px] mt-[68px] mb-[34px] items-center">
-            <AddModeratorIcon
+            <NoteAddSharpIcon
                 sx={{ fontSize: 80 }}
                 className="text-[70px] text-slate-200"
             />

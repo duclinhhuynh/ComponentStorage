@@ -82,7 +82,7 @@ export default function AddProjects({
   }
   return (
     <div
-      className={`${isMobileView ? "w-[80%]" : "w-[40%]"} h-[288px] border border-slate-50 bg-white rounded-md shadow-md absolute top-24 -translate-x-1/2 left-1/2 z-40`}
+      className={`${isMobileView ? "w-[80%]" : "w-[40%]"} h-[288px] border border-slate-50 bg-white rounded-md shadow-md fixed top-24 -translate-x-1/2 left-1/2 z-70`}
     >
       {/* Header */}
       <div className="flex justify-between items-center pt-7 px-7">

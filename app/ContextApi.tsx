@@ -89,6 +89,10 @@ interface AppContextType {
     selectedComponentObject: {
         selectedComponent: AppComponent | null;
         setSelectedComponent: React.Dispatch<React.SetStateAction<AppComponent | null>>;
+    };
+    openAllProjectWindowObject: {
+        openAllProjectWindow: boolean;
+        setOpenAllProjectWindow: React.Dispatch<React.SetStateAction<boolean>>;
     }
 }
 const defaultState: AppContextType = {
@@ -160,6 +164,10 @@ const defaultState: AppContextType = {
         openDeletedWindow: false,
         setOpenDeletedWindow: () => {},
     },
+    openAllProjectWindowObject: {
+        openAllProjectWindow: false,
+        setOpenAllProjectWindow: () => {}
+    }
 };
 
 const AppContext = createContext<AppContextType>(defaultState);
@@ -204,7 +212,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const [selectedComponent, setSelectedComponent] = useState<AppComponent |null>(null);
     const [openComponentEditor, setOpenComponentEditor] = useState(false);
     const [openDeletedWindow , setOpenDeletedWindow] = useState(false);
-    
+    const [openAllProjectWindow, setOpenAllProjectWindow] = useState(false);
     useEffect(() => {
         function fetchAllProjects() {
             setTimeout(() => {
@@ -237,6 +245,12 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             setAllFavoriteComponents(favoriteComponents);
         }
     }, [allProjects]);
+
+    useEffect(()=> {
+        if(menuItems[1].isSelected) {
+            setOpenAllProjectWindow(true);
+        }
+    }, [menuItems]);
     return (
         <AppContext.Provider
             value={{
@@ -257,6 +271,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 openComponentEditorObject: { openComponentEditor, setOpenComponentEditor},
                 selectedComponentObject: { selectedComponent, setSelectedComponent },
                 openDeleteWindowObject: { openDeletedWindow, setOpenDeletedWindow },
+                openAllProjectWindowObject: { openAllProjectWindow, setOpenAllProjectWindow },
             }}
         >
             {children}

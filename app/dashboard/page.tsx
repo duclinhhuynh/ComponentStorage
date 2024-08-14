@@ -11,6 +11,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import ComponentPage from "./ComponentPage";
 import {ComponentEditor} from "./Components/ComponentPage/ComponentEditor"
 import DeleteWindow from "./Components/DeleteWindow";
+import AllProjectWindow from "./Components/AllProjectsWindow";
 interface SelectedIcon {
   icon: React.ReactNode;
   name: string;
@@ -21,6 +22,7 @@ function Dashboard() {
     showComponentPageObject: { showComponentPage },
     openComponentEditorObject: { openComponentEditor },
     openDeleteWindowObject : { openDeletedWindow }, 
+    openAllProjectWindowObject: { openAllProjectWindow },
   } = useAppContext();
   const [selectedIcon, setSelectedIcon] = React.useState<SelectedIcon>({
     icon: <FaPython />,
@@ -34,8 +36,10 @@ function Dashboard() {
     <div className="flex popins relative">
       <Toaster />
       <IconsWindow onUpdateIconSelected={getTheIconSelected} />
-      <AddProjects selectedIcon={selectedIcon} />
-      {openProjectWindow && <SoftLayer />}
+      {openProjectWindow && <>
+          <SoftLayer />
+          <AddProjects selectedIcon={selectedIcon}/>
+        </>}
       <SideBar/>
       {!showComponentPage ? <ContentArea /> : <ComponentPage/>}
       {openComponentEditor && (
@@ -49,6 +53,12 @@ function Dashboard() {
           <SoftLayer />
           <DeleteWindow />
         </>
+      )}
+      {openAllProjectWindow && (
+         <>
+         <SoftLayer />
+         <AllProjectWindow/>
+       </>
       )}
     </div>
   );
