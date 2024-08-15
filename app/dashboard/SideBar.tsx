@@ -52,7 +52,7 @@ export default function SideBar() {
         <div
             ref={menuRef}
             style={{ position: isMobileView ? "fixed" : "relative" }}
-            className={`${openSideBar ? "w-[320px] p-6" : "w-[100px] p-4"} h-screen pt-12 relative transition-all duration-300  bg-white ${showSideBar ? "block" : "hidden"}`}>
+            className={`${openSideBar ? "w-[320px] p-6" : "w-[100px] p-4"} h-screen pt-12 relative transition-all duration-300  bg-white z-10 ${showSideBar ? "block" : "hidden"}`}>
             <RoundedArrowIcon />
             <Logo />
             <Links />

@@ -20,7 +20,10 @@ export interface DarkModeMenu {
     icon: ReactNode;
     isSelected: boolean;
 }
-
+type DropDownPosition = {
+    top: number;
+    left: number;
+};
 interface AppContextType {
     menuItemsObject: {
         menuItems: MenuItem[];
@@ -93,6 +96,24 @@ interface AppContextType {
     openAllProjectWindowObject: {
         openAllProjectWindow: boolean;
         setOpenAllProjectWindow: React.Dispatch<React.SetStateAction<boolean>>;
+    };
+    openSortingDropDownObject: {
+        openSortingDropDown: boolean;
+        setOpenSortingDropDown: React.Dispatch<React.SetStateAction<boolean>>;
+    };
+    sortingDropDownPositionsObject: {
+        sortingDropDownPositions: DropDownPosition;
+        setSortingDropDownPositions: React.Dispatch<
+            React.SetStateAction<DropDownPosition>
+        >;
+    };
+    sortProjectsObject: {
+        sortProjects: Project[];
+        setSortProjects: React.Dispatch<React.SetStateAction<Project[]>>;
+    };
+    sortingOptionsObject: {
+        sortingOptions: any[];
+        setSortingOptions: React.Dispatch<React.SetStateAction<any[]>>;
     }
 }
 const defaultState: AppContextType = {
@@ -142,31 +163,47 @@ const defaultState: AppContextType = {
     },
     openIconWindowObject: {
         openIconWindow: false,
-        setOpenIconWindow: () => {},
+        setOpenIconWindow: () => { },
     },
     showComponentPageObject: {
         showComponentPage: false,
-        setShowComponentPage: () => {},
+        setShowComponentPage: () => { },
     },
     selectedProjectObject: {
         selectedProject: null,
-        setSelectedProject: () => {}
+        setSelectedProject: () => { }
     },
     openComponentEditorObject: {
         openComponentEditor: false,
-        setOpenComponentEditor: () => {} 
+        setOpenComponentEditor: () => { }
     },
     selectedComponentObject: {
         selectedComponent: null,
-        setSelectedComponent: () => {}
+        setSelectedComponent: () => { }
     },
     openDeleteWindowObject: {
         openDeletedWindow: false,
-        setOpenDeletedWindow: () => {},
+        setOpenDeletedWindow: () => { },
     },
     openAllProjectWindowObject: {
         openAllProjectWindow: false,
-        setOpenAllProjectWindow: () => {}
+        setOpenAllProjectWindow: () => { }
+    },
+    openSortingDropDownObject: {
+        openSortingDropDown: false,
+        setOpenSortingDropDown: () => { },
+    },
+    sortingDropDownPositionsObject: {
+        sortingDropDownPositions: { top: 0, left: 0 },
+        setSortingDropDownPositions: () => { },
+    },
+    sortProjectsObject: {
+        sortProjects: [],
+        setSortProjects: () => { },
+    },
+    sortingOptionsObject: {
+        sortingOptions: [],
+        setSortingOptions: () => { },
     }
 };
 
@@ -209,14 +246,47 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const [isLoading, setIsLoading] = useState(false);
     const [showComponentPage, setShowComponentPage] = useState(false);
     const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-    const [selectedComponent, setSelectedComponent] = useState<AppComponent |null>(null);
+    const [selectedComponent, setSelectedComponent] = useState<AppComponent | null>(null);
     const [openComponentEditor, setOpenComponentEditor] = useState(false);
-    const [openDeletedWindow , setOpenDeletedWindow] = useState(false);
+    const [openDeletedWindow, setOpenDeletedWindow] = useState(false);
     const [openAllProjectWindow, setOpenAllProjectWindow] = useState(false);
+    const [openSortingDropDown, setOpenSortingDropDown] = useState(false);
+    const [sortingDropDownPositions, setSortingDropDownPositions] = useState({
+        left: 0,
+        top: 0,
+    });
+    const [sortProjects, setSortProjects] = useState<Project[]>([]);
+    const [sortingOptions, setSortingOptions] = useState([
+        {
+            category: "Order",
+            options: [
+                { label: "A-Z", value: "asc", selected: true },
+                { label: "Z-A", value: "desc", selected: false },
+            ]
+        },
+        {
+            category: "Date",
+            options: [
+                { label: "Newest", value: "newest", selected: false },
+                { label: "Oldest", value: "oldest", selected: false },
+            ],
+        },
+    ]);
     useEffect(() => {
         function fetchAllProjects() {
             setTimeout(() => {
+                allProjectsData.forEach((project) => {
+                    project.components.sort((a, b) => {
+                        return (
+                            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                        );
+                    });
+                });
+                // Update the all Projects
+                setSortProjects(allProjectsData);
+                // Set Loading to false
                 setAllProjects(allProjectsData);
+                setIsLoading(false);
             }, 2000);
         }
         fetchAllProjects();
@@ -246,9 +316,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         }
     }, [allProjects]);
 
-    useEffect(()=> {
-        if(menuItems[1].isSelected) {
+    useEffect(() => {
+        if (menuItems[0].isSelected) {
+            setSelectedProject(null);
+            setShowComponentPage(false);
+        }
+        if (menuItems[1].isSelected) {
             setOpenAllProjectWindow(true);
+            setSelectedProject(null);
+            setShowComponentPage(false);
         }
     }, [menuItems]);
     return (
@@ -268,10 +344,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 openIconWindowObject: { openIconWindow, setOpenIconWindow },
                 showComponentPageObject: { showComponentPage, setShowComponentPage },
                 selectedProjectObject: { selectedProject, setSelectedProject },
-                openComponentEditorObject: { openComponentEditor, setOpenComponentEditor},
+                openComponentEditorObject: { openComponentEditor, setOpenComponentEditor },
                 selectedComponentObject: { selectedComponent, setSelectedComponent },
                 openDeleteWindowObject: { openDeletedWindow, setOpenDeletedWindow },
                 openAllProjectWindowObject: { openAllProjectWindow, setOpenAllProjectWindow },
+                openSortingDropDownObject: { openSortingDropDown, setOpenSortingDropDown },
+                sortingDropDownPositionsObject: { sortingDropDownPositions, setSortingDropDownPositions },
+                sortProjectsObject: { sortProjects, setSortProjects },
+                sortingOptionsObject: { sortingOptions, setSortingOptions},
             }}
         >
             {children}

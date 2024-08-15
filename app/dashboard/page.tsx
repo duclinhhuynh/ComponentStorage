@@ -38,7 +38,7 @@ function Dashboard() {
       <IconsWindow onUpdateIconSelected={getTheIconSelected} />
       {openProjectWindow && <>
           <SoftLayer />
-          <AddProjects selectedIcon={selectedIcon}/>
+          <AddProjects selectedIcon={selectedIcon} setSelectedIcon = {setSelectedIcon}/>
         </>}
       <SideBar/>
       {!showComponentPage ? <ContentArea /> : <ComponentPage/>}
@@ -66,7 +66,7 @@ function Dashboard() {
 
 function SoftLayer() {
   return (
-      <div className="w-full h-full fixed top-0 right-0 bg-black opacity-30"></div>
+      <div className="w-full h-full fixed left-0 top-0 right-0 bg-black opacity-30 z-20"></div>
   );
 }
 

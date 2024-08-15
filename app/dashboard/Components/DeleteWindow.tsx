@@ -5,6 +5,7 @@ import { AppComponent } from "@/app/allData";
 import { Project } from "@/app/allData";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from '@mui/icons-material/Delete';
+import toast from "react-hot-toast";
 const DeleteWindow = () => {
     const {
         openDeleteWindowObject: { openDeletedWindow, setOpenDeletedWindow },
@@ -12,6 +13,7 @@ const DeleteWindow = () => {
         allProjectsObject: { allProjects, setAllProjects },
         selectedProjectObject: { selectedProject, setSelectedProject },
         isMobileViewObject: { isMobileView },
+        openAllProjectWindowObject: { openAllProjectWindow}
     } = useAppContext();
 
     function deleteComponentFunction() {
@@ -49,7 +51,19 @@ const DeleteWindow = () => {
             console.error("Failed to delete component:", error);
         }
     }
-
+    function deleteProjectFunction() {
+        //Delete Project
+        try {
+            const updatedAllProjects = allProjects.filter(
+                (project: Project) => project._id !== selectedProject?._id
+            ); 
+            setAllProjects(updatedAllProjects);
+            setOpenDeletedWindow(false);
+            toast.success("Project deleted successfully");
+        } catch (error) {
+            toast.error("Something went wrong");
+        }
+    }
     return (
         <div
             className={`${isMobileView ? "w-[80%]" : "w-[40%]"} h-[288px] border border-slate-50 bg-white rounded-md shadow-md fixed top-[20%] bottom-[20%] -translate-x-1/2 left-1/2 z-40`}
@@ -72,7 +86,7 @@ const DeleteWindow = () => {
             </div>
             {/* body */}
             <div className="lex flex-col gap-2 mt-11 px-7">
-                <span className="font-semibold text-lg">Are You sure you want to delete this component <br/></span>
+                <span className="font-semibold text-lg">Are You sure you want to delete this <span className="text-red-500">{openAllProjectWindow ? selectedProject?.name : selectedComponent?.name}</span> {openAllProjectWindow ? "project" : "component"}<br /></span>
                 <span className="font-semibold text-red-500 "> You can not revert after deleted</span>
             </div>
             {/* Footer */}
@@ -88,9 +102,9 @@ const DeleteWindow = () => {
                     Cancel
                 </button >
                 <button
-                    onClick={deleteComponentFunction}
+                    onClick={openAllProjectWindow ? deleteProjectFunction : deleteComponentFunction}
                     className="flex items-center bg-sky-500 hover:bg-sky-600 text-white text-[12px] p-2 px-3 rounded-md transition-all">
-                        <DeleteIcon sx={{ fontSize: 17 }} className="text-white-500 mx-1 text-[12px]" />
+                    <DeleteIcon sx={{ fontSize: 17 }} className="text-white-500 mx-1 text-[12px]" />
                     Delete
                 </button>
             </div >

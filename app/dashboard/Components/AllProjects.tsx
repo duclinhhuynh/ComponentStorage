@@ -15,7 +15,7 @@ export default function AllProjects() {
     } = useAppContext();
     return (
         // The main container
-        <div className="bg-white w-full p-8 rounded-lg mt-4">
+        <div className="bg-white w-full p-8 rounded-lg mt-4 z-30">
             {/* Header */}
             <span className="text-lg flex gap-2 justify-between items-center">
                 {/* */}

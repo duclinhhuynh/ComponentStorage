@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SearchIcon from '@mui/icons-material/Search';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import DragIndicatorRoundedIcon from '@mui/icons-material/DragIndicatorRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -12,6 +13,7 @@ import { Project } from "@/app/allData";
 import { TextToIcon } from "@/app/utils/TextToIcon";
 import NoteAddSharpIcon from '@mui/icons-material/NoteAddSharp';
 import React, { useEffect, useRef, useState } from "react";
+import { SortingDropdown } from "../Components/SortingDropdown"
 export default function AllProjectsWindow() {
     const {
         openAllProjectWindowObject: {
@@ -23,7 +25,7 @@ export default function AllProjectsWindow() {
     return (
         <div
             style={{ display: openAllProjectWindow ? "block" : "none" }}
-            className="w-[70%] max-sm:w-[90%] p-9 border border-slate-50 h-[82%] bg-white rounded-xl shadow-md fixed left-1/2 top-[10%] bottom-[10%] -translate-x-1/2 z-50"
+            className="w-[70%] max-sm:w-[90%] p-9 border border-slate-50 h-[82%] bg-white rounded-xl shadow-md fixed left-1/2 top-[10%] bottom-[10%] -translate-x-1/2 z-30"
         >
             <Header />
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -126,19 +128,42 @@ export default function AllProjectsWindow() {
 
     //Sort By
     function SortByComponent() {
+        const {
+            allProjectsObject: { allProjects },
+            openSortingDropDownObject: { openSortingDropDown, setOpenSortingDropDown },
+            sortingDropDownPositionsObject: { sortingDropDownPositions, setSortingDropDownPositions },
+        } = useAppContext();
+        const nameRef = useRef<HTMLDivElement>(null);
+        function openSortingDropDownFunction() {
+            if (nameRef.current) {
+                const rect = nameRef?.current.getBoundingClientRect();
+                const top = rect.top;
+                const left = rect.left;
+                setSortingDropDownPositions({ top: top, left: left });
+            }
+            setOpenSortingDropDown(true);
+        }
         return (
-            <div className="mt-11 mb-[13px] flex gap-2 items-center justify-between text-[13px]">
+            <div
+                className="mt-11 mb-[13px] flex gap-2  items-center justify-between text-[13px]">
                 <div className="flex gap-1">
                     <span className="text-slate-400">You have</span>
-                    <span className="text-sky-500 font-semibold">{3}</span>
+                    <span className="text-sky-500 font-semibold">{allProjects.length}</span>
                     <span className="text-slate-400">projects!</span>
                 </div>
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center relative">
                     <span className="text-slate-400">Sort By:</span>
-                    <div className="text-sky-500 flex gap-1 items-center">
+                    <div
+                        ref={nameRef}
+                        onClick={openSortingDropDownFunction}
+                        className="text-sky-500 flex gap-1 items-center cursor-pointer">
                         <span>Name</span>
-                        <KeyboardArrowDownRoundedIcon className="text-[13px]" />
+                        {openSortingDropDown ? <KeyboardArrowUpIcon className="text-[13px]"/> : <KeyboardArrowDownRoundedIcon className="text-[13px]" />}
+                        
+                        
                     </div>
+                    <SortingDropdown />
+
                 </div>
             </div>
         );
@@ -153,12 +178,14 @@ export default function AllProjectsWindow() {
         const {
             allProjectsObject: { allProjects },
             isLoadingObject: { isLoading },
+            sortProjectsObject: { sortProjects}
         } = useAppContext()
-        const filterAllProjectsBySearchQuery = allProjects.filter((singleProject) =>
+        const filterAllProjectsBySearchQuery = sortProjects.filter((singleProject) =>
             singleProject.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
+
         return (
-            <div className="w-full Ibg-slate-50 h-[64%] rounded-lg p-3 flex flex-col gap-3">
+            <div className="w-full bg-slate-50 h-[64%] rounded-lg p-3 flex flex-col gap-3">
                 {isLoading && (
                     <div className="flex flex-col gap-3 justify-center items-center w-full mt-28">
                         <CircularProgress value={100} />
@@ -185,10 +212,25 @@ export default function AllProjectsWindow() {
             const {
                 selectedProjectObject: { selectedProject, setSelectedProject },
                 openProjectWindowObject: { setOpenProjectWindow },
+                showComponentPageObject: { setShowComponentPage },
+                menuItemsObject: { menuItems, setMenuItems },
+                openDeleteWindowObject: { setOpenDeletedWindow },
             } = useAppContext();
             function editTheProjectClicked() {
                 setOpenProjectWindow(true);
                 setSelectedProject(project)
+            }
+            function openTheProject() {
+                // update selected project
+                setSelectedProject(project);
+                // close the all project window
+                setOpenAllProjectWindow(false);
+                // Show component page
+                setShowComponentPage(true);
+            }
+            function openDeleteWindow() {
+                setSelectedProject(project);
+                setOpenDeletedWindow(true);
             }
             return (
                 <div className="w-full bg-white rounded-md flex gap-3 items-center justify-between p-3">
@@ -196,7 +238,7 @@ export default function AllProjectsWindow() {
                         <DragIndicatorRoundedIcon className="text-slate-400" />
                         {/* Project Icon */}
                         <div>
-                            <div className="w-[30px] h-[30px] Ibg-sky-200 rounded-full flex items-center justify-center">
+                            <div className="w-[30px] h-[30px] bg-sky-200 rounded-full flex items-center justify-center">
                                 {
                                     TextToIcon({
                                         text: project.icon,
@@ -208,7 +250,9 @@ export default function AllProjectsWindow() {
                         </div>
                         {/* Project Name */}
                         <div className="flex flex-col">
-                            <span className="font-bold">{project.name}</span>
+                            <span
+                                onClick={openTheProject}
+                                className="font-bold">{project.name}</span>
                             <span className="text-slate-400 text-[12px] ">{project.components.length} components</span>
                         </div>
                     </div>
@@ -224,7 +268,9 @@ export default function AllProjectsWindow() {
                             />
                         </div>
                         {/* Edit Button */}
-                        <div className=" rounded-full w-7 h-7 flex items-center justify-center cursor-pointer bg-slate-200 hover:bg-slate-300">
+                        <div
+                            onClick={openDeleteWindow}
+                            className=" rounded-full w-7 h-7 flex items-center justify-center cursor-pointer bg-slate-200 hover:bg-slate-300">
                             <DeleteIcon className=" text-slate-400" sx={{ fontSize: 15 }} />
                         </div>
                     </div>

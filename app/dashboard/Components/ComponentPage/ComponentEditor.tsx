@@ -320,7 +320,7 @@ export function ComponentEditor({ component }: { component?: AppComponent }) {
             style={{
                 display: openComponentEditor ? "flex" : "none",
             }}
-            className="w-[96%] h-full max-sm:h-[90%] max-sm:flex-col border-slate-100 flex-col items-center overflow-hidden bg-white absolute left-1/2 top-2 rounded-2xl shadow-md -translate-x-1/2 z-60"
+            className="w-[96%] h-full max-sm:h-[90%] max-sm:flex-col border-slate-100 flex-col items-center overflow-hidden bg-white absolute left-1/2 top-2 rounded-2xl shadow-md -translate-x-1/2 z-30"
         >
             <div className="w-full h-full overflow-y-auto">
                 {/* Left Part */}
