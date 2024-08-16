@@ -5,14 +5,13 @@ import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAppContext } from "@/app/ContextApi";
 import Skeleton from '@mui/material/Skeleton';
-import { Project, AppComponent } from "@/app/allData";
 interface StatisticCard {
     id: number;
     name: string;
     icon: React.ReactNode;
     count: number;
 }
-export default function StatsBar({ project, comp }: { project: Project, comp: AppComponent }) {
+export default function StatsBar() {
     const {
         allProjectsObject: { allProjects },
         allFavoriteComponentsObject: { allFavoriteComponents },
