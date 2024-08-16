@@ -12,6 +12,7 @@ export default function AllProjects() {
         allProjectsObject: { allProjects },
         isLoadingObject: { isLoading },
         openProjectWindowObject: { setOpenProjectWindow },
+        openAllProjectWindowObject: { setOpenAllProjectWindow },
     } = useAppContext();
     return (
         // The main container
@@ -21,7 +22,9 @@ export default function AllProjects() {
                 {/* */}
                 <div className="flex gap-4 items-center">
                     <span className="font-bold text-lg">All Projects</span>
-                    <span className="text-[14px] text-sky-600 cursor-pointer">More</span>
+                    <span
+                        onClick={() => setOpenAllProjectWindow(true)}
+                        className="text-[14px] text-sky-600 hover:underline cursor-pointer">More</span>
                 </div>
                 {/* New project button */}
                 {!isLoading && allProjects.length > 0 && (
@@ -57,7 +60,7 @@ export default function AllProjects() {
     function SingleProject({ singleProject }: { singleProject: Project }) {
         const {
             showComponentPageObject: { showComponentPage, setShowComponentPage },
-            selectedProjectObject: { selectedProject, setSelectedProject},
+            selectedProjectObject: { selectedProject, setSelectedProject },
         } = useAppContext();
         function projectClicked() {
             setShowComponentPage(true);
@@ -70,7 +73,7 @@ export default function AllProjects() {
             >
                 {/* The Icon */}
                 <div className="w-[50px] h-[50px] p-3 bg-sky-100 rounded-full flex items-center justify-center">
-                    {TextToIcon({ text: singleProject.icon, size: "medium" , className:""})}
+                    {TextToIcon({ text: singleProject.icon, size: "medium", className: "" })}
                     {/* <LandslideIcon className="text-[30px] text-sky-400" /> */}
                 </div >
                 {/* Name and components count */}

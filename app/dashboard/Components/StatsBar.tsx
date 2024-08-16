@@ -1,37 +1,49 @@
 "use client"
-import React from "react";
+import React, { useEffect } from "react";
 import CategoryIcon from "@mui/icons-material/Category";
-import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useAppContext } from "@/app/ContextApi";
 import Skeleton from '@mui/material/Skeleton';
+import { Project, AppComponent } from "@/app/allData";
 interface StatisticCard {
     id: number;
     name: string;
     icon: React.ReactNode;
     count: number;
 }
-export default function StatsBar() {
-    const [statisticsCards, setStatisticsCard] = React.useState<StatisticCard[]>([
-        {
-            id: 1,
-            name: "Projects Created",
-            icon: <AccountTreeIcon className="text-sky-400" />,
-            count: 3,
-        },
-        {
-            id: 2,
-            name: "Components Added",
-            icon: <CategoryIcon className="text-sky-400" />,
-            count: 12,
-        },
-        {
-            id: 3,
-            name: "Favorites components",
-            icon: <FavoriteIcon className="text-sky-400" />,
-            count: 12,
-        },
-    ]);
+export default function StatsBar({ project, comp }: { project: Project, comp: AppComponent }) {
+    const {
+        allProjectsObject: { allProjects },
+        allFavoriteComponentsObject: { allFavoriteComponents },
+
+    } = useAppContext();
+
+
+    const [statisticsCards, setStatisticsCard] = React.useState<StatisticCard[]>([]);
+    useEffect(() => {
+        setStatisticsCard([
+            {
+                id: 1,
+                name: "Projects Created",
+                icon: <CreateNewFolderIcon className="text-sky-400" />,
+                count: allProjects.length,
+            },
+            {
+                id: 2,
+                name: "Components Added",
+                icon: <CategoryIcon className="text-sky-400" />,
+                count: allProjects.reduce((a,b) => a + b.components.length, 0),
+            },
+            {
+                id: 3,
+                name: "Favorites components",
+                icon: <FavoriteIcon className="text-sky-400" />,
+                count: allFavoriteComponents.length,
+            },
+        ])
+    })
+
     return (
         <div className="mt-sl flex flex-col gap-1">
             <div className="grid grid-cols-3 gap-4 rounded-1g mt-2">
@@ -53,7 +65,7 @@ export default function StatsBar() {
                     {singleCard.icon}
                 </div>
                 <div className="flex flex-col max-sm:justify-center">
-                    {isLoading ? (  
+                    {isLoading ? (
                         <Skeleton className="mb-2" variant="rectangular" width={105} height={25} />
                     ) : (
                         <span className="font-bold text-2x1 max-sm:text-center">{singleCard.count}</span>

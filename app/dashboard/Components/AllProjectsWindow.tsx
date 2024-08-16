@@ -14,6 +14,7 @@ import { TextToIcon } from "@/app/utils/TextToIcon";
 import NoteAddSharpIcon from '@mui/icons-material/NoteAddSharp';
 import React, { useEffect, useRef, useState } from "react";
 import { SortingDropdown } from "../Components/SortingDropdown"
+import { Category } from "@mui/icons-material";
 export default function AllProjectsWindow() {
     const {
         openAllProjectWindowObject: {
@@ -118,7 +119,9 @@ export default function AllProjectsWindow() {
                         </div>
                     )}
                 </div>
-                <button className="bg-sky-500 ml-2 p-[10px] flex w-[15%] text-sm rounded-md text-white items-center justify-center max-lg:w-full">
+                <button
+                    onClick={() => setOpenProjectWindow(true)}
+                    className="bg-sky-500 ml-2 p-[10px] flex w-[15%] text-sm rounded-md text-white items-center justify-center max-lg:w-full">
                     <AddOutlinedIcon sx={{ fontSize: 17 }} />
                     <span className="max-md:hidden">Create New</span>
                 </button >
@@ -132,6 +135,7 @@ export default function AllProjectsWindow() {
             allProjectsObject: { allProjects },
             openSortingDropDownObject: { openSortingDropDown, setOpenSortingDropDown },
             sortingDropDownPositionsObject: { sortingDropDownPositions, setSortingDropDownPositions },
+            sortingOptionsObject: { sortingOptions },
         } = useAppContext();
         const nameRef = useRef<HTMLDivElement>(null);
         function openSortingDropDownFunction() {
@@ -143,6 +147,9 @@ export default function AllProjectsWindow() {
             }
             setOpenSortingDropDown(true);
         }
+        const selectedName = sortingOptions.find((category) =>
+            category.options.some((option: any) => option.selected)
+        );
         return (
             <div
                 className="mt-11 mb-[13px] flex gap-2  items-center justify-between text-[13px]">
@@ -157,10 +164,10 @@ export default function AllProjectsWindow() {
                         ref={nameRef}
                         onClick={openSortingDropDownFunction}
                         className="text-sky-500 flex gap-1 items-center cursor-pointer">
-                        <span>Name</span>
-                        {openSortingDropDown ? <KeyboardArrowUpIcon className="text-[13px]"/> : <KeyboardArrowDownRoundedIcon className="text-[13px]" />}
-                        
-                        
+                        <span>{selectedName?.category}</span>
+                        {openSortingDropDown ? <KeyboardArrowUpIcon className="text-[13px]" /> : <KeyboardArrowDownRoundedIcon className="text-[13px]" />}
+
+
                     </div>
                     <SortingDropdown />
 
@@ -178,7 +185,7 @@ export default function AllProjectsWindow() {
         const {
             allProjectsObject: { allProjects },
             isLoadingObject: { isLoading },
-            sortProjectsObject: { sortProjects}
+            sortProjectsObject: { sortProjects }
         } = useAppContext()
         const filterAllProjectsBySearchQuery = sortProjects.filter((singleProject) =>
             singleProject.name.toLowerCase().includes(searchQuery.toLowerCase())

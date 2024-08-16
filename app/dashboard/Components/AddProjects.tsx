@@ -66,13 +66,13 @@ export default function AddProjects({
       setSelectedIcon(iconObject)
     }
     const focusInput = () => {
-      if(inputRef.current) {
+      if (inputRef.current) {
         inputRef.current.focus();
       }
     };
     setTimeout(focusInput, 0);
     setErrorMessage("");
-  },[openProjectWindow])
+  }, [openProjectWindow])
 
   useEffect(() => {
     if (openProjectWindow) {

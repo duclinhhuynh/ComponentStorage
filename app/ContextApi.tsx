@@ -287,7 +287,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
                 // Set Loading to false
                 setAllProjects(allProjectsData);
                 setIsLoading(false);
-            }, 2000);
+            }, 500);
         }
         fetchAllProjects();
     }, []);
